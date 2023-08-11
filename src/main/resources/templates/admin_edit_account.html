@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Dashboard - Edublitz</title>
+<!-- <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+       <script type="text/javascript" src="/bootstrap/css/bootstrap.js"></script> -->
+<link
+	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
+	rel="stylesheet" />
+<link href="/bootstrap/css/styles.css" rel="stylesheet" />
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+	crossorigin="anonymous"></script>
+</head>
+
+<body class="sb-nav-fixed">
+
+<main>
+			<div class="container-fluid px-4">
+				<div th:replace="/fragments/header1"></div>
+				<div id="layoutSidenav_content">
+					<main>
+						<div class="container-fluid px-4">
+							<h1 class="mt-4">Edit Account</h1>
+
+</head>
+
+<body>
+	<div class="container">
+		<h1>Edit Account</h1>
+		<form class="needs-validation" th:action="@{/adminAccount/edit/{id}(id=${account.id})}" th:object="${account}" method="post" novalidate>
+			<div class="mb-3 col-5">
+				<label for="account_lastName" class="form-label">Last Name: </label>
+				<input id ="account_lastName" type="text" class="form-control" th:field="*{lastName}" required minlength=2 maxlength=100/>
+				<div class="invalid-feedback">Please enter a last name.</div>
+				<p class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:error="*{lastName}"></p>	
+			</div>
+			
+			<div class="mb-3 col-5">
+				<label for="account_firstName" class="form-label">First Name: </label>
+				<input id ="account_firstName" type="text" class="form-control" th:field="*{firstName}" required minlength=2 maxlength=100/>
+				<div class="invalid-feedback">Please enter a first name.</div>
+				<p class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:error="*{firstName}"></p>
+			</div>
+			
+			<div class="mb-3 col-5">
+				<label for="account_username" class="form-label">Username: </label>
+				<input id ="account_username" type="text" class="form-control" th:field="*{username}" required minlength=2 maxlength=100/>
+				<div class="invalid-feedback">Please enter a username.</div>
+				<p class="text-danger" th:if="${#fields.hasErrors('username')}" th:error="*{username}"></p>
+			</div>
+			
+			<div class="mb-3 col-5">
+				<label for="account_password" class="form-label">Password: </label>
+				<input id ="account_password" type="password" class="form-control" th:field="*{password}" />
+			</div>
+			
+			<div class="mb-3 col-5">	
+			    <label for="account_nric" class="form-label">NRIC: </label> 
+			    <input id="account_nric" type="text" class="form-control" th:field="*{nric}" required pattern="[TS]\d{7}[A-Z]" />
+			    <div class="invalid-feedback">Please enter a valid NRIC starting with 'T' or 'S', followed by 7 numbers, and ending with a capital letter.</div>
+			    <p class="text-danger" th:if="${#fields.hasErrors('nric')}" th:error="*{nric}"></p>
+			</div>
+			
+			<div class="mb-3 col-5">	
+				<label for="account_gender" class="form-label">Gender: </label>
+				<select id= "account_gender" class="form-control" th:field="*{gender}" required>
+					<option value = "">Please select one</option>
+					<option value = "Male">Male</option>
+					<option value = "Female">Female</option>
+				</select>
+				<div class="invalid-feedback">Please select a gender.</div>
+				<p class="text-danger" th:if="${#fields.hasErrors('gender')}" th:error="*{gender}"></p>
+			</div>
+				
+			<div class="mb-3 col-5">
+			    <label for="account_email" class="form-label">Email: </label> 
+			    <input id="account_email" type="email" class="form-control" th:field="*{email}" required />
+			    <div class="invalid-feedback">Please enter a valid email address.</div>
+			    <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:error="*{email}"></p>
+			</div>
+			
+			<div class="mb-3 col-5">
+			    <label for="account_contactNo" class="form-label">Contact No: </label> 
+			    <input id="account_contactNo" type="text" class="form-control" th:field="*{contactNo}" required pattern="[89]\d{7}" title="Please enter a valid contact number starting with 8 or 9, followed by 7 digits." />
+			    <div class="invalid-feedback">Please enter a contact number starting with 8 or 9, followed by 7 digits.</div>
+			    <p class="text-danger" th:if="${#fields.hasErrors('contactNo')}" th:error="*{contactNo}"></p>
+			</div>
+			
+			<div class="mb-2 col-5">
+			    <label for="account_dob" class="form-label">Date of Birth:</label>
+			    <input id="account_dob" type="date" class="form-control" th:field="*{dob}" required>
+			    <div class="invalid-feedback">Please enter your date of birth.</div>
+			    <p class="text-danger" th:if="${#fields.hasErrors('dob')}" th:error="*{dob}"></p>
+			</div>
+
+			<script>
+			    var today = new Date().toISOString().split("T")[0];
+			    document.getElementById("account_dob").setAttribute("max", today);
+			</script>
+			
+			<div class="mb-2 col-5">
+				<label for="account_accountNo" class="form-label">Bank Account Number: </label>
+				<input id="account_accountNo" type="text" class="form-control" th:field="*{accountNo}" required minlength=2 maxlength=100 />
+				<div class="invalid-feedback">Please enter a bank account number.</div>
+				<p class="text-danger" th:if="${#fields.hasErrors('accountNo')}" th:error="*{accountNo}"></p>
+			</div>
+			
+			<div class="mb-2 col-5">
+				<label for="account_bankAccountName" class="form-label">Bank Account Name: </label>
+				<input id="account_bankAccountName" type="text" class="form-control" th:field="*{bankAccountName}" required />
+				<div class="invalid-feedback">Please enter a bank account name.</div>
+				<p class="text-danger" th:if="${#fields.hasErrors('bankAccountName')}" th:error="*{bankAccountName}"></p>
+			</div>
+			
+			<div class="mb-2 col-5">
+				<label for="account_bank" class="form-label">Bank Name:</label><br>
+				<div class="custom-select-wrapper">
+					<select id="account_bank" class="form-control" th:field="*{bank}" required>
+						<option value="">Please select one</option>
+						<option value="OCBC">OCBC</option>
+						<option value="UOB">UOB</option>
+						<option value="POSB/DBS">POSB/DBS</option>
+						<option value="HSBC">HSBC</option>
+						<option value="CitiBank">CitiBank</option>
+						<option value="MayBank">MayBank</option>
+						<option value="Standard Chartered">Standard Chartered</option>
+					</select>
+				</div>
+				<div class="invalid-feedback">Please select a bank name.</div>
+				<p class="text-danger" th:if="${#fields.hasErrors('bank')}"th:error="*{bank}"></p>
+			</div>
+			
+			
+			
+			
+			<div class="mb-3 col-5">	
+				<label for="account_residing" class="form-label">Residing: </label>
+				<input id ="account_residing" type="text" class="form-control" th:field="*{residing}" required minlength=2 maxlength=100/>
+				<div class="invalid-feedback">Please enter residing.</div>
+				<p class="text-danger" th:if="${#fields.hasErrors('residing')}" th:error="*{residing}"></p>
+			</div>
+			
+			<div class="mb-3 col-5">	
+				<label for="account_qualification" class="form-label">Qualification: </label>
+				<input id ="account_qualification" type="text" class="form-control" th:field="*{qualification}" required minlength=2 maxlength=100/>
+				<div class="invalid-feedback">Please enter qualification.</div>
+				<p class="text-danger" th:if="${#fields.hasErrors('qualification')}" th:error="*{qualification}"></p>
+
+			</div>
+			
+			<div class="mb-3 col-5">
+				<label for="account_certificateStatus" class="form-label">Certificate Status: </label>
+				<select id= "account_certificateStatus" class="form-control" th:field="*{certificateStatus}" required>
+					<option value = "">Please select one</option>
+					<option value = "Valid">Valid</option>
+					<option value = "Expiring">Expiring</option>
+					<option value = "Expired">Expired</option>
+				</select>
+				<div class="invalid-feedback">Please select certificate status.</div>
+				<p class="text-danger" th:if="${#fields.hasErrors('certificateStatus')}" th:error="*{certificateStatus}"></p>
+			</div>
+			
+			<div class="mb-2 col-5">
+			    <label class="form-label">Rate Type:</label><br>
+			    <input type="radio" id="standardRateRadio" name="rateType" value="Standard" required>
+			    <label for="standardRateRadio">Standard</label>
+			    <input type="radio" id="preferredRateRadio" name="rateType" value="Preferred" required>
+			    <label for="preferredRateRadio">Preferred</label>
+			</div>
+			
+			  <div id="salaryInput" class="mb-2 col-5" style="display: none;">
+			    <label for="salary" class="form-label">Salary: </label>
+			    <input id="salary" type="text" class="form-control" name="salary" th:field="*{salary}" minlength="2" maxlength="100" />
+			    <div class="invalid-feedback">Please enter a salary.</div>
+			    <p class="text-danger" th:if="${#fields.hasErrors('salary')}" th:error="*{salary}"></p>
+			</div>
+			
+			<div id="hrsPayInput" class="mb-2 col-5" style="display: none;">
+			    <label for="hrsPay" class="form-label">Hourly Pay: </label>
+			    <input id="hrsPay" type="text" class="form-control" name="hrsPay" th:field="*{hrsPay}" minlength="2" maxlength="100" />
+			    <div class="invalid-feedback">Please enter an hourly pay.</div>
+			    <p class="text-danger" th:if="${#fields.hasErrors('hrsPay')}" th:error="*{hrsPay}"></p>
+			</div>
+		      
+			<div class="mb-2 col-5">
+		        <label for="account_role" class="form-label">Role: </label> 
+		        <br>
+		        <div class="custom-select-wrapper">
+		          <select id="account_role" class="form-control" th:field="*{role}" required>
+		            <option value="">Please select one</option>
+		            <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+		            <option value="ROLE_TRAINER">ROLE_TRAINER</option>
+		          </select>
+		        </div>
+		        <div class="invalid-feedback">Please select a role.</div>
+		        <p class="text-danger" th:if="${#fields.hasErrors('role')}" th:error="*{role}"></p>
+		      </div>
+			<div class="mt-3">
+				<button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to edit this account?');">Update Account</button>
+			</div>
+		</form>
+		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  		<script src="/bootstrap/js/bootstrap.js"></script>
+  		  <!-- Form Validation -->
+		  <script>
+		    'use strict'
+		
+		    var form = document.querySelector('.needs-validation')
+		
+		    form.addEventListener('submit', function(event) {
+		      if (!form.checkValidity()) {
+		        event.preventDefault()
+		        event.stopPropagation()
+		      }
+		      form.classList.add('was-validated')
+		    })
+		    
+		     $(document).ready(function() {
+		          $('input[name="rateType"]').change(function() {
+		              var selectedValue = $('input[name="rateType"]:checked').val();
+		              if (selectedValue === 'Standard') {
+		                  $('#salaryInput').show();
+		                  $('#hrsPayInput').hide();
+		              } else if (selectedValue === 'Preferred') {
+		                  $('#salaryInput').hide();
+		                  $('#hrsPayInput').show();
+		              }
+		          });
+		      });
+		  </script>
+		  <!-- Form Validation -->
+	</div>
+</body>

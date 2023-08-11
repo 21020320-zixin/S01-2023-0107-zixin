@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Dashboard - Edublitz</title>
+<!-- <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+       <script type="text/javascript" src="/bootstrap/css/bootstrap.js"></script> -->
+<link
+	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
+	rel="stylesheet" />
+<link href="/bootstrap/css/styles.css" rel="stylesheet" />
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+	crossorigin="anonymous"></script>
+</head>
+
+<body class="sb-nav-fixed">
+
+<main>
+			<div class="container-fluid px-4">
+				<div th:replace="/fragments/header1"></div>
+				<div id="layoutSidenav_content">
+					<main>
+						<div class="container-fluid px-4">
+							<h1 class="mt-4">View Accounts</h1>
+			<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
+			<table class="table table bordered";>
+				<thead>
+					<tr> 
+						<th>Last Name</th>
+						<th>First Name</th>
+						<th>NRIC</th>
+						<th>Gender</th>
+						<th>Email</th>
+						<th>Contact No.</th>
+						<th>DOB</th>
+						<th>Bank Account Number</th>
+						<th>Bank Account Name</th>
+						<th>Bank Name</th>
+						<th>Residing</th>
+						<th>Qualification</th>
+						<th>Certificate Status</th>
+						<th>Rate</th>
+						<th>Role</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="account : ${listAccount}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+						<td th:text="${account.lastName}"></td>
+						<td th:text="${account.firstName}"></td>
+						<td th:text="${account.nric}"></td>
+						<td th:text="${account.gender}"></td>
+						<td th:text="${account.email}"></td>
+						<td th:text="${account.contactNo}"></td>
+						<td th:text="${account.dob}"></td>
+						<td th:text="${account.accountNo}"></td>
+						<td th:text="${account.bankAccountName}"></td>
+						<td th:text="${account.bank}"></td>
+						<td th:text="${account.residing}"></td>
+						<td th:text="${account.qualification}"></td>
+						<td th:text="${account.certificateStatus}"></td>
+						<td th:text="${account.rate}"></td>
+						<td th:text="${account.role}"></td>
+ 						<td>
+ 							<a th:href="@{/adminAccount/edit/{id}(id=${account.id})}">Edit</a> |
+						    <a th:href="@{/adminAccount/delete/{id}(id=${account.id})}" onclick="return confirm('Are you sure you want to delete this member?');">Delete</a>
+						</td>
+					</tr>
+				
+
+				</tbody>
+			</table>
+			<a href="/adminAccount/add" class="btn btn-primary">Add Account</a>
+		</main>
+		<div th:replace="fragments/footer"></div>
+	</div>
+</body>
+</html>
+
+

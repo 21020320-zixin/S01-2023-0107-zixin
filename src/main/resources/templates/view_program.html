@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Dashboard - Edublitz</title>
+<!-- <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+       <script type="text/javascript" src="/bootstrap/css/bootstrap.js"></script> -->
+<link
+	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
+	rel="stylesheet" />
+<link href="/bootstrap/css/styles.css" rel="stylesheet" />
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+	crossorigin="anonymous"></script>
+</head>
+
+<body class="sb-nav-fixed">
+
+<main>
+			<div class="container-fluid px-4">
+				<div th:replace="/fragments/header1"></div>
+				<div id="layoutSidenav_content">
+					<main>
+						<div class="container-fluid px-4">
+							<h1 class="mt-4">Program</h1>
+		
+		<table class="table table-bordered" style="background-color:snow;">
+
+			<thead>
+				<tr>
+					<th>Program Name</th>
+					<th>Category</th>
+					<th sec:authorize="hasRole('ADMIN')">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="program : ${listOfProgram}">
+<!-- 				<th:block th:each="category : ${listOfCategory}"> -->
+					<tr>
+						<td> <a th:href="@{/program/{id}(id=${program.id})}" th:text=${program.name}></a> </td>
+
+						<td th:text="${program.category.name}"></td>
+						<td sec:authorize="hasRole('ADMIN')"> 
+							<a th:href="@{/program/edit/{id}(id=${program.id})}"> Edit </a> | 
+							<a th:href="@{/program/delete/{id}(id=${program.id})}" onclick= "return confirm('Are you sure you want to delete this product?');"> Delete </a>
+						</td>
+						
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+	</div>
+	
+	<form action="/program/add" method="get">
+	<button type="submit" class="btn btn-primary" sec:authorize="hasRole('ADMIN')">Add</button>
+	</form>
+	</div>
+
+</body>
+</html>

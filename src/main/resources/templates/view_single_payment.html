@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Received Payments - Trainer Area</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
+	rel="stylesheet" />
+<link href="/bootstrap/css/styles.css" rel="stylesheet" />
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+	crossorigin="anonymous"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('#showHiddenProgram').click(function() {
+			$('.hiddenProgram').toggle("slide");
+		});
+	});
+</script>
+
+</head>
+<body class="sb-nav-fixed">
+	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+		<!-- Navbar Brand-->
+		<a class="navbar-brand ps-3" href="index_trainer.html">Trainer
+			Area</a>
+		<!-- Sidebar Toggle-->
+		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
+			id="sidebarToggle" href="#!">
+			<i class="fas fa-bars"></i>
+		</button>
+		<!-- Navbar Search-->
+		<form
+			class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+			<div class="input-group">
+				<input class="form-control" type="text" placeholder="Search for..."
+					aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+				<button class="btn btn-primary" id="btnNavbarSearch" type="button">
+					<i class="fas fa-search"></i>
+				</button>
+			</div>
+		</form>
+		<!-- Navbar-->
+		<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+			<li class="nav-item dropdown"><a
+				class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
+				role="button" data-bs-toggle="dropdown" aria-expanded="false"><i
+					class="fas fa-user fa-fw"></i></a>
+				<ul class="dropdown-menu dropdown-menu-end"
+					aria-labelledby="navbarDropdown">
+					<li><a class="dropdown-item" href="#!">Settings</a></li>
+					<li><a class="dropdown-item" href="#!">Activity Log</a></li>
+					<li><hr class="dropdown-divider" /></li>
+					<li><a class="dropdown-item" href="/login">Logout</a></li>
+				</ul></li>
+		</ul>
+	</nav>
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_nav">
+			<nav class="sb-sidenav accordion sb-sidenav-dark"
+				id="sidenavAccordion">
+				<div class="sb-sidenav-menu">
+					<div class="nav">
+						<!-- <a class="nav-link" href="index_trainer.html">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-tachometer-alt"></i>
+							</div> Dashboard
+						</a>  -->
+						<a class="nav-link" href="/">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-tachometer-alt"></i>
+							</div> Dashboard
+						</a> <a class="nav-link" href="/trainers">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-table"></i>
+							</div> Trainers
+						</a> <a class="nav-link" sec:authorize="hasRole('TRAINER')" th:href="@{/trainers/programrun}">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-table"></i>
+							</div> Run-Programs
+						</a> <a class="nav-link" sec:authorize="hasRole('ADMIN')" th:href="@{/programrun}">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-table"></i>
+							</div> Run-Programs
+						</a> <a class="nav-link" href="#venues.html">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-table"></i>
+							</div> Venues
+						</a> <a class="nav-link collapsed" href="#categories.html">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-table"></i>
+							</div> Categories
+						</a>
+						<a class="nav-link" th:href="@{/pay/list}">
+							<div class="sb-nav-link-icon">
+								<i class="fas fa-tachometer-alt"></i>
+							</div> Received Payments
+						</a>
+					</div>
+				</div>
+				<div class="sb-sidenav-footer">
+					<div class="small">Logged in as:</div>
+					Trainer
+				</div>
+			</nav>
+		</div>
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">Received Payments</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item"><a href="/programrun">Programs</a></li>
+						<li class="breadcrumb-item"><a th:href="@{/pay/list}">Received
+								Payments</a></li>
+						<li class="breadcrumb-item">Viewing Payment Received on
+						<span th:text="${timesheet.date}"></span>	
+						</li>
+					</ol>
+
+
+
+
+					<div class="card mb-4">
+						<div class="card-header"><i class="fas fa-table me-1"></i>Payment Details</div>
+						<div class="card-body">
+							<div style="text-align: right">
+								<h6>Bank Account Name: &nbsp;&nbsp;<span style="color: blue" th:text="${timesheet.bankAccountName}"></span></h6>
+								<h6>Bank Account Number:&nbsp;&nbsp;<span style="color: blue" th:text="${timesheet.accountNo}"></span></h6>
+								<h6>Bank Name:&nbsp;&nbsp;<span style="color: blue" th:text="${timesheet.bank}"></span></h6>
+							</div>
+							<div style="margin-top: 50px;">
+								<h6 style="color: #6e401d;">Details</h6>
+								<br />
+								<table style="width: 100%">
+									<tr>
+										<td width="20%" valign="top">Period</td>
+										<td width="30%" valign="top" th:text="${timesheet.date}" style="color: darkblue"></td>
+										<td width="25%" valign="top"></td>
+										<td width="25%" valign="top"></td>
+									<tr>
+									<tr>
+										<td valign="top">ID</td>
+										<td valign="top" th:text="${timesheet.member.id}" style="color: darkblue"></td>
+										<td valign="top">Total Duration</td>
+										<td valign="top" th:text="${timesheet.lessonTime}+' Hrs'" style="color: darkblue"></td>
+									<tr>
+									<tr>
+										<td valign="top">Name</td>
+										<td valign="top" th:text="${timesheet.member.firstName}+' '+${timesheet.member.lastName}" style="color: darkblue"></td>
+										<td valign="top">Total Transport Allow.</td>
+										<td valign="top" style="color: darkblue">- $</td>
+									<tr>
+									<tr>
+										<td valign="top">Rate Per Hr</td>
+										<td valign="top" th:text="${timesheet.rate}+' $'" style="color: darkblue"></td>
+										<td valign="top">Total Amount</td>
+										<td valign="top" th:text="${timesheet.total}+' $'" style="color: darkblue"></td>
+									<tr>
+								</table>
+							</div>
+
+							<div style="margin-top: 50px;">
+								<h6 style="color: #6e401d; cursor: pointer;"
+									id="showHiddenProgram">View Programs &#62;&#62;</h6>
+								<br />
+								<div class="hiddenProgram" style="display: none;">
+									<table id="datatablesSimple">
+										<thead>
+											<tr>
+												<th>No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+												<th>Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+												<th>Venue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+												<th title="Strat | End | Duration">Lesson Time</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td th:text="${timesheet.programrun.appointmentDate}"></td>
+												<td th:text="${timesheet.programrun.venue}"></td>
+												<td th:text="${timesheet.programrun.program.name}"></td>
+												<td th:text="${timesheet.programrun.startTime}+' | '+${timesheet.programrun.endTime}"></td>
+												<td th:text="${timesheet.lessonTime}">10:05 | 11:25 | 1.20</td>
+											</tr>
+											
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+
+
+
+
+
+						</div>
+
+					</div>
+				</div>
+			</main>
+			<footer class="py-4 bg-light mt-auto">
+				<div class="container-fluid px-4">
+					<div
+						class="d-flex align-items-center justify-content-between small">
+						<div class="text-muted">Copyright &copy; FYP GROUP</div>
+						<div>
+							<a href="#">Privacy Policy</a> &middot; <a href="#">Terms
+								&amp; Conditions</a>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script src="js/scripts.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+		crossorigin="anonymous"></script>
+	<script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>

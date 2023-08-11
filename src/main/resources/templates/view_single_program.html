@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<body style="background-color:lavender;">
+<meta charset="UTF-8">
+<title>Eduplitz - View Single Program</title>
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<script src="/bootstrap/js/bootstrap.js"></script>
+</head>
+<body>
+	<div class="container">
+	<div th:replace="/fragments/header"></div>
+	<div class="container">
+		<h1 th:text=${program.name}></h1>
+		<img width="300" height="400" th:src="@{/uploads/program/{id}/{imgName}(id = ${products.id}, imgName=${products.imgName})}" />
+		<p th:text=${program.description} ></p>
+		<p> $ <span th:text=${products.price}></span></p>
+		
+		<form th:action="@{/cart/add/{productId}(productId=${products.id})}"
+			method="post">
+			<input type="number" name="quantity" value=1 />
+			<button class="btn btn-primary">Add to cart</button>
+		</form>
+		
+	</div>
+	<div th:replace="/fragments/footer"></div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Programs - Trainer Management</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
+	rel="stylesheet" />
+<link href="/bootstrap/css/styles.css" rel="stylesheet" />
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+	crossorigin="anonymous"></script>
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="https://code.jquery.com/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<!-- <script>
+	$(function() {
+		$("#datepicker").datepicker();
+	});
+</script> -->
+</head>
+<body class="sb-nav-fixed">
+	<div id="layoutSidenav_content">
+
+		<div class="container-fluid px-4">
+			<div th:replace="fragments/header1"></div>
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid px-4">
+						<h1 class="mt-4">Timesheets</h1>
+						<ol class="breadcrumb mb-4">
+							<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+							<li class="breadcrumb-item"><a href="/standard/timesheets">Standard Timesheets</a></li>
+							<li class="breadcrumb-item"><a href="/standard/timesheet/add"></a>Add
+								New Timesheet</li>
+						</ol>
+						<div class="card mb-4">
+							<div class="card-header">
+								<i class="fas fa-table me-1"></i> Add New Timesheet
+							</div>
+							<div class="card-body">
+
+
+								<br />
+								<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle" type="button"
+										data-bs-toggle="dropdown" aria-expanded="false">
+										Select Trainer <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu">
+										<li th:each="member:${memberList}"><a
+											class="dropdown-item"
+											th:href="@{/view/single/standard/timesheet/{id}(id=${member.id})}"
+											th:text="${member.username}"></a></li>
+									</ul>
+								</div>
+								<form th:action="@{/view/single/standard/timesheet/{id}(id=${member.id})}" method="post">
+									<!-- <select name="name" id="name" >
+									<option value="" selected="selected">Select Trainer</option>
+									<option th:each="member:${memberList}" th:text="${member.username}" th:value="${member.id}"></option>
+								</select> (Note: Upon completion, Below fields values will change once the trainer is selected) -->
+									<br> <br> <br> <label for="tid">ID</label><br />
+									<input type="text" name="mid" readonly th:value="${member.id}"><br />
+									<label for="bname">Name in Bank Account</label><br /> <input
+										type="text" name="accountName" th:value="${member.bankAccountName}" ><br />
+									<label for="bank">Bank</label><br /> <input type="text"
+										name="bankName" th:value="${member.bank}" ><br /> <label
+										for="bacc">Account No</label><br /> <input type="text"
+										name="accountNo" th:value="${member.accountNo}" ><br /> <br />
+
+									<hr>
+									<br /> 
+									Select Programs
+											To Add:<br>
+									<select name="programrunId" id="program" style="width: 50%;">
+										<!-- <option value="" selected="selected">Select Programs
+											To Add</option> -->
+										<option th:each="programrun:${programrunList}"
+											th:value="${programrun.id}"
+											th:text="${programrun.appointmentDate}+' | '+${programrun.venue}+' | '+${programrun.program.name}+' | '+${programrun.startTime} +' to '+${programrun.endTime}">
+										</option>
+
+									</select> 
+									<input type="submit" value="Add" name="action"><br /> 
+									<!-- </form> -->
+									(Note: Upon
+									completion, Selected value will be added in the list below once
+									a value is selected and "Add" button is clicked) <br /> <br />
+									Programs Added:<br />
+									<div th:each="programrun:${prunList}">
+									 <input type="text" style="width: 50%;" th:value="${programrun.appointmentDate}+' | '+${programrun.venue}+' | '+${programrun.program.name}+' | '+${programrun.startTime} +' to '+${programrun.endTime}"
+										readonly> <a th:href="@{/remove/standard/timesheet/{memberId}/{prId}(memberId=${programrun.member.id},prId=${programrun.id})}">Remove</a><br>
+										</div>
+										 <!-- <input
+										type="text" style="width: 50%;"
+										value="2023/06/25 | Huat Ahh Private School | Media Club | 14:00 to 15:30"
+										readonly> <a href="#">Remove</a><br> <input
+										type="text" style="width: 50%;"
+										value="2023/06/24 | Huat Ahh Private School | Media Videography | 14:00 to 15:30"
+										readonly> <a href="#">Remove</a><br> --> 
+										<br /> <br />
+									<br /> Total Amount:<br /> <input type="text" name="total" value="0"
+										readonly> $ (Note: Upon completion, Total amount will
+									change according to added programs) <br> <br /> <!-- Payment
+									Method:<br /> <select name="method" id="method">
+										<option value="" selected="selected">Select</option>
+										<option value="1">Credit/Debit Cards</option>
+										<option value="2">Paypal</option>
+										<option value="3">PayLah</option>
+									</select> --><br> <br> <br /> <input type="submit"
+										value="Add New Timesheet" name="action">
+								</form> 
+								<br> <br> <br />
+
+
+
+							</div>
+						</div>
+					</div>
+				</main>
+				<div th:replace="fragments/footer"></div>
+			</div>
+		</div>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+			crossorigin="anonymous"></script>
+		<script src="js/scripts.js"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+			crossorigin="anonymous"></script>
+		<script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Programs - Trainer Management</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
+	rel="stylesheet" />
+<link href="/bootstrap/css/styles.css" rel="stylesheet" />
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+	crossorigin="anonymous"></script>
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="https://code.jquery.com/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script
+	src="https://www.paypal.com/sdk/js?client-id=AUkW44IrVYd3WN4bPRdCARuADjTke655q9EC5EGL9Fx-3n6S1UFu1o4yozAsghR_Fh7_BLEZ-tB_lxEb&currency=SGD&components=buttons">
+	
+</script>
+<!-- <script>
+	$(function() {
+		$("#datepicker").datepicker();
+	});
+</script> -->
+</head>
+<body class="sb-nav-fixed">
+	<div id="layoutSidenav_content">
+
+		<div class="container-fluid px-4">
+			<div th:replace="fragments/header1"></div>
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid px-4">
+						<h1 class="mt-4">Timesheets</h1>
+						<ol class="breadcrumb mb-4">
+							<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+							<li class="breadcrumb-item"><a href="/Standard/timesheets">Standard Timesheets</a></li>
+							<li class="breadcrumb-item"><a href="/standard/timesheet/add"></a>Add
+								New Timesheet</li>
+						</ol>
+						<div class="card mb-4">
+							<div class="card-header">
+								<i class="fas fa-table me-1"></i> Payment Timesheet
+							</div>
+							<div class="card-body">
+
+								<div class="row g-3 ">
+									<div class="col-md-6 text-warning text-end">
+										<label for="rname" class="form-label">Trainer's
+											Account Name</label>:
+									</div>
+									<div class="col-1"></div>
+									<div class="col-md-5 text-start">
+										<span th:text="${timesheet.bankAccountName}"></span>
+									</div>
+								</div>
+								<div class="row g-3">
+									<div class="col-md-6 text-warning text-end">
+										<label for="input" class="form-label">Bank</label>:
+
+									</div>
+									<div class="col-1"></div>
+									<div class="col-md-5 text-start">
+										<span th:text="${timesheet.bank}"></span>
+
+									</div>
+								</div>
+								<div class="row g-3">
+									<div class="col-md-6 text-warning text-end">
+										<label for="input" class="form-label">Account Number</label>:
+
+									</div>
+									<div class="col-1"></div>
+									<div class="col-md-5 text-start">
+										<span th:text="${timesheet.accountNo}"></span>
+
+									</div>
+								</div>
+								<div class="row g-3 ">
+									<div class="col-6 text-warning text-end">
+										<label for="" class="form-label">Programme(Appointment Date)</label>:
+									</div>
+									<div class="col-1"></div>
+									<div class="col-md-5 text-start">
+										<p th:each="timesheet:${timesheetList}">
+											<span th:text="${timesheet.programrun.program.name}"></span>
+											<span style="font-style: italic;" th:text="' ('+${timesheet.programrun.appointmentDate}+')'"></span>
+										</p>
+
+									</div>
+								</div>
+								
+								<div class="row g-3 ">
+									<div class="col-6 text-warning text-end">
+										<label for="" class="form-label">Total Hours</label>:
+									</div>
+									<div class="col-1"></div>
+									<div class="col-md-5 text-start">
+										<span th:text="${hour}+' hrs '+${minutes}+' mins'"></span>
+									</div>
+								</div>
+								<!-- <div class="row g-3 ">
+									<div class="col-6 text-warning text-end">
+										<label for="" class="form-label">Rate</label>:
+									</div>
+									<div class="col-1"></div>
+									<div class="col-md-5 text-start">
+										<span th:text="${timesheet.rate}+ ' $'"></span>
+									</div>
+								</div> -->
+								<div class="row g-3 ">
+									<div class="col-6 text-warning text-end">
+										<label for="" class="form-label">Transfer Amount</label>:
+									</div>
+									<div class="col-1"></div>
+									<div class="col-md-5 text-start">
+										<span th:text="${total}+ ' $'"></span>
+									</div>
+								</div>
+								<br /> <br> <br> <br />
+
+								<div class="row">
+									<!-- transfer -->
+									<div class="col"></div>
+									<div class="col-4">
+
+										<div class="row m-3 border-bottom fw-bold">
+
+
+
+
+
+											<div id="paypal-button-container"></div>
+											<form th:action="@{/standard/pay/{memberId}(memberId=${timesheet.member.id})}"
+												method="post" id="paypalForm">
+												<input type="hidden" name="transferAmount"
+													id="transferAmount" th:value="${total}">
+												<input type="hidden" name="accountNo" id="accountNo"
+													th:value="${timesheet.accountNo}"> <input
+													type="hidden" name="transactionId" id="transactionId">
+												<input type="hidden" name="email" id="email"
+													th:value="${timesheet.member.email}">
+
+											</form>
+
+											<script>
+												var transferAmount = document
+														.getElementById("transferAmount").value;
+												var accountNo = document
+														.getElementById("accountNo").value;
+												/*  localStorage.setItem("currency",currency);*/
+												var email = document
+														.getElementById("email").value;
+												//console.log("Transfer Amount: " + transferAmount);
+												paypal
+														.Buttons(
+																{
+																	createOrder : function(
+																			data,
+																			actions) {
+																		// This function sets up the details of the transaction, 
+																		// including the amount and line item details.
+																		return actions.order
+																				.create({
+																					purchase_units : [ {
+																						amount : {
+																							value : transferAmount
+																						},
+																						payee : {
+																							email_address : email
+																						}
+																					} ]
+																				});
+																	},
+																	/* style: {
+																	    layout:  'horizontal',
+																	    color:   'blue',
+																	    shape:   'rect',
+																	    label:   'paypal'
+																	  }, */
+																	onApprove : function(
+																			data,
+																			actions) {
+																		// This function captures the funds from the transaction.
+																		return actions.order
+																				.capture()
+																				.then(
+																						function(
+																								details) {
+
+																							//Extracting some information from details
+																							var transactionId = details.purchase_units[0].payments.captures[0].id;
+																							var completedBy = details.payer.name.given_name;
+																							/* var currency = details.payer.currency.given_currency;
+																							var email = details.payer.email.given_email;
+																							 */
+																							//Printing to the console some details
+																							console
+																									.log("Transaction completed by "
+																											+ completedBy);
+																							console
+																									.log("Transaction ID: "
+																											+ transactionId);
+
+																							//Printing full details JSON
+																							console
+																									.log(JSON
+																											.stringify(details));
+
+																							//Calling processOrder function
+																							processOrder(
+																									accountNo,
+																									transactionId);
+																						});
+																	}
+																})
+														.render(
+																'#paypal-button-container');
+
+												function processOrder(
+														accountNo,
+														transactionId) {
+
+													//Set orderId and transactionId into the hidden values in the paypalForm
+													document
+															.getElementById("transactionId").value = transactionId;
+													document
+															.getElementById("accountNo").value = accountNo;
+													/* document.getElementById("currency").value = currency; */
+													document
+															.getElementById("email").value = email;
+
+													//Submit the paypalForm to be processed at the backend
+													document.getElementById(
+															"paypalForm")
+															.submit();
+													/* console.log("Processing Order in backend: " + orderId); */
+
+												}
+											</script>
+
+										</div>
+
+									</div>
+									<div class="col"></div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</main>
+				<div th:replace="fragments/footer"></div>
+			</div>
+		</div>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+			crossorigin="anonymous"></script>
+		<script src="js/scripts.js"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+			crossorigin="anonymous"></script>
+		<script src="js/datatables-simple-demo.js"></script>
+</body>
+</html>
